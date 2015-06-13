@@ -15,17 +15,20 @@ public class JerseyClient {
 	// Product API
 	private static Client productClient = null;
 	private static WebResource productService = null;
+	// Community API
+	private static Client communityClient = null;
+	private static WebResource communityService = null;
 
 	public static WebResource getHackathonService() {
 		if (config == null) {
 			config = new DefaultClientConfig();
 			hackathonClient = Client.create(config);
-			hackathonService = hackathonClient.resource(UriBuilder.fromUri("http://hackathon.backcountry.com:8081/hackathon/public/")
-					.build());
+			hackathonService = hackathonClient.resource(UriBuilder.fromUri(
+					"http://hackathon.backcountry.com:8081/hackathon/public/").build());
 		}
 		return hackathonService;
 	}
-	
+
 	public static WebResource getProductService() {
 		if (config == null) {
 			config = new DefaultClientConfig();
@@ -35,4 +38,15 @@ public class JerseyClient {
 		}
 		return productService;
 	}
+
+	public static WebResource getCommunityService() {
+		if (config == null) {
+			config = new DefaultClientConfig();
+			communityClient = Client.create(config);
+			communityService = communityClient.resource(UriBuilder.fromUri(
+					"http://communityapipqa-vip.bcinfra.net:9001/v1/").build());
+		}
+		return communityService;
+	}
+
 }

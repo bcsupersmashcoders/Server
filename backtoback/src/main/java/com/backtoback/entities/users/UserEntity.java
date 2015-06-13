@@ -3,39 +3,33 @@ package com.backtoback.entities.users;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.backtoback.backcountry.pojos.UsersPojo;
 import com.backtoback.entities.events.EventEntity;
-import com.googlecode.objectify.annotation.Embed;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 @Entity
-@Embed
 public class UserEntity {
 
 	@Id
 	private Long id;
 	@Index
 	private String username;
-	@Index
-	private String password;
 	private String bio;
 	private List<String> passions;
 	private List<EventEntity> eventsAttendants;
 	private List<EventEntity> eventsCreated;
 
-	public UserEntity(String username, String password, String bio, List<String> passions) {
-		this.username = username;
-		this.password = password;
-		this.bio = bio;
-		this.passions = passions;
+	public UserEntity() {
 		this.setEventsAttendants(new ArrayList<EventEntity>());
 		this.setEventsCreated(new ArrayList<EventEntity>());
 	}
 
-	public UserEntity() {
-		this.setEventsAttendants(new ArrayList<EventEntity>());
-		this.setEventsCreated(new ArrayList<EventEntity>());
+	public UserEntity(String username, UsersPojo userPojo) {
+		this.username = username;
+		this.bio = userPojo.getBio();
+		this.passions = userPojo.getPassions();
 	}
 
 	public Long getId() {
@@ -44,14 +38,6 @@ public class UserEntity {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getBio() {

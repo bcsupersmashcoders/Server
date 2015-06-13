@@ -5,7 +5,6 @@ import java.util.List;
 import com.backtoback.entities.events.EventEntity;
 import com.backtoback.entities.images.ImageEntity;
 import com.backtoback.entities.users.UserEntity;
-import com.backtoback.pojos.ResultMessage;
 import com.backtoback.pojos.URLResource;
 import com.backtoback.services.events.EventsHandlingService;
 import com.backtoback.services.images.ImageHandlingService;
@@ -15,6 +14,7 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.config.Named;
+import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.NotFoundException;
 
 /** An endpoint class we are exposing */
@@ -77,9 +77,9 @@ public class EventService {
 		userService.removeAttendance(event, user);
 	}
 
-	@ApiMethod(name = "getUser", path = "users/getUser", httpMethod = HttpMethod.POST)
+	@ApiMethod(name = "loginUser", path = "users/login", httpMethod = HttpMethod.POST)
 	public UserEntity loginUser(@Named("username") String username, @Named("password") String password)
-			throws NotFoundException {
+			throws NotFoundException, ConflictException {
 		return userService.loginUser(username, password);
 	}
 }
