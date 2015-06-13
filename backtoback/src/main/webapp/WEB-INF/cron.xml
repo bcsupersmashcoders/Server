@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+	<cron>
+		<url>/postPhotos</url>
+		<description>postPhotos</description>
+		<schedule>every 1 minute</schedule>
+	</cron>
+	<cron>
+		<url>/notificateEvents</url>
+		<description>notificateUsers</description>
+		<schedule>every 5 minute</schedule>
+	</cron>
+</cronentries>

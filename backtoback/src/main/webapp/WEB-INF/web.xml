@@ -23,6 +23,24 @@
 		<url-pattern>/images</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<servlet-name>postPhotos</servlet-name>
+		<servlet-class>com.backtoback.services.api.PostPhotosServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>postPhotos</servlet-name>
+		<url-pattern>/postPhotos</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>notificateEvents</servlet-name>
+		<servlet-class>com.backtoback.services.api.NotificateEventsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>notificateEvents</servlet-name>
+		<url-pattern>/notificateEvents</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>SystemServiceServlet</servlet-name>
 		<servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
 		<init-param>
