@@ -26,9 +26,10 @@ import com.sun.jersey.api.client.WebResource;
 
 public class EventsHandlingService {
 	
-	private final String productsPath = "categories/{categortId}/products";
+	private final String productsPath = "categories/{categoryId}/products";
 	
 	public EventEntity createEvent(EventEntity event) {
+		event.setProducts(getProducts(event.getTag()));
 		ObjectifyService.ofy().save().entity(event).now();
 		return event;
 	}
@@ -69,11 +70,11 @@ public class EventsHandlingService {
 	public List<ProductEntity> getProducts(String categoryId){
 		String sourcePath = productsPath;
 		sourcePath = sourcePath.replace("{categoryId}", categoryId);
-		WebResource wr = JerseyClient.getCommunityService().path(sourcePath)
+		WebResource wr = JerseyClient.getProductService().path(sourcePath)
 															.queryParam("site", "bcs")
 															.queryParam("outlet", "false")
 															.queryParam("offset","0")
-															.queryParam("limit", "100")
+															.queryParam("limit", "10")
 															.queryParam("preview", "false")
 															.queryParam("debug", "false")
 															.queryParam("sort", "reviewAverage desc");
