@@ -26,10 +26,9 @@ public class EventService {
 	private EventsHandlingService eventService = new EventsHandlingService();
 	private UsersHandlingService userService = new UsersHandlingService();
 
-	@ApiMethod(name = "create", httpMethod = HttpMethod.POST, path = "event")
-	public ResultMessage create(EventEntity event) {
-		Long id = eventService.createEvent(event);
-		return new ResultMessage("Success", Long.toString(id));
+	@ApiMethod(name = "createEvent", httpMethod = HttpMethod.POST, path = "event")
+	public EventEntity createEvent(EventEntity event) {
+		return eventService.createEvent(event);
 	}
 
 	@ApiMethod(name = "getEvent", httpMethod = HttpMethod.GET, path = "event/{id}")

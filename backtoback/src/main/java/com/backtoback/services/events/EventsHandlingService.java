@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.backtoback.entities.events.EventEntity;
+import com.backtoback.entities.products.ProductEntity;
 import com.backtoback.entities.users.UserEntity;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -16,16 +17,16 @@ import com.google.appengine.api.datastore.Query;
 import com.googlecode.objectify.ObjectifyService;
 
 public class EventsHandlingService {
-	public Long createEvent(EventEntity event) {
+	
+	public EventEntity createEvent(EventEntity event) {
 		com.googlecode.objectify.Key<EventEntity> key = ObjectifyService.ofy().save().entity(event).now();
-		return key.getId();
+		return event;
 	}
 
 	public EventEntity getEvent(String id) throws NotFoundException {
-		Key key = KeyFactory.createKey("EventEntity", Long.decode(id));
-		Entity entity = null;
 		try {
-			entity = DatastoreServiceFactory.getDatastoreService().get(key);
+			Key key = KeyFactory.createKey("EventEntity", Long.decode(id));
+			Entity entity = DatastoreServiceFactory.getDatastoreService().get(key);
 			EventEntity event = ObjectifyService.ofy().toPojo(entity);
 			return event;
 		} catch (EntityNotFoundException e) {
@@ -53,5 +54,9 @@ public class EventsHandlingService {
 	public void removeAttendance(EventEntity eventEntity, UserEntity userEntity) throws NotFoundException {
 		eventEntity.removeAttendant(userEntity);
 		ObjectifyService.ofy().save().entity(eventEntity).now();
+	}
+	
+	private List<ProductEntity> getProducts(String tag){
+		return null;
 	}
 }
