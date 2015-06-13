@@ -15,7 +15,6 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.config.Named;
-import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.NotFoundException;
 
 /** An endpoint class we are exposing */
@@ -39,6 +38,16 @@ public class EventService {
 	@ApiMethod(name = "getEvents", httpMethod = HttpMethod.GET, path = "events")
 	public List<EventEntity> getEvents() throws NotFoundException {
 		return eventService.getEvents();
+	}
+
+	@ApiMethod(name = "getEventsCreated", httpMethod = HttpMethod.GET, path = "users/{id}/events/created")
+	public List<EventEntity> getEventsCreated(@Named("id") String id) throws NotFoundException {
+		return userService.getEventsCreated(id);
+	}
+
+	@ApiMethod(name = "getEventsAttending", httpMethod = HttpMethod.GET, path = "users/{id}/events/attended")
+	public List<EventEntity> getEventsAttending(@Named("id") String id) throws NotFoundException {
+		return userService.getEventsAttending(id);
 	}
 
 	@ApiMethod(name = "getUrl", path = "images/url", httpMethod = HttpMethod.GET)
@@ -66,18 +75,6 @@ public class EventService {
 		UserEntity user = userService.getUserById(userId);
 		eventService.removeAttendance(event, user);
 		userService.removeAttendance(event, user);
-	}
-
-	@ApiMethod(name = "createUser", path = "users/createUser", httpMethod = HttpMethod.POST)
-	public ResultMessage createFser(@Named("username") String username, @Named("password") String password,
-			@Named("bio") String bio, @Named("passions") List<String> passions) throws ConflictException {
-		return userService.createUser(username, password, bio, passions);
-	}
-
-	@ApiMethod(name = "validateUser", path = "users/validateUser", httpMethod = HttpMethod.POST)
-	public ResultMessage validateUser(@Named("username") String username, @Named("password") String password)
-			throws NotFoundException {
-		return userService.validateUser(username, password);
 	}
 
 	@ApiMethod(name = "getUser", path = "users/getUser", httpMethod = HttpMethod.POST)

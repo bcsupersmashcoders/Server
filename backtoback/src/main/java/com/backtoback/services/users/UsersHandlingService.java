@@ -99,6 +99,16 @@ public class UsersHandlingService {
 		ObjectifyService.ofy().save().entity(userEntity).now();
 	}
 
+	public List<EventEntity> getEventsAttending(String id) throws NotFoundException {
+		UserEntity user = getUserById(id);
+		return user.getEventsAttendants();
+	}
+
+	public List<EventEntity> getEventsCreated(String id) throws NotFoundException {
+		UserEntity user = getUserById(id);
+		return user.getEventsCreated();
+	}
+
 	public UserEntity loginUser(String username, String password) {
 		if (StringUtils.equals(username, "bcsupersmashcoders@gmail.com")
 				&& StringUtils.equals(password, "superpassword")) {
