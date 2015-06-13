@@ -18,6 +18,8 @@ import com.googlecode.objectify.ObjectifyService;
 
 public class EventsHandlingService {
 	
+	private final String productsPath = "categories/bcsCat15000003/products?site=bcs&outlet=false&offset=0&limit=10&preview=false&debug=false&sort=reviewAverage%20desc";
+	
 	public EventEntity createEvent(EventEntity event) {
 		com.googlecode.objectify.Key<EventEntity> key = ObjectifyService.ofy().save().entity(event).now();
 		return event;
@@ -56,7 +58,8 @@ public class EventsHandlingService {
 		ObjectifyService.ofy().save().entity(eventEntity).now();
 	}
 	
-	private List<ProductEntity> getProducts(String tag){
+	private List<ProductEntity> getProducts(String categoryId){
 		return null;
 	}
+	
 }

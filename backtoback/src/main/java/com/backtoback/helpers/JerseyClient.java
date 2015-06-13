@@ -30,7 +30,7 @@ public class JerseyClient {
 		if (config == null) {
 			config = new DefaultClientConfig();
 			productClient = Client.create(config);
-			productService = productClient.resource(UriBuilder.fromUri("http://hackathon.backcountry.com:8081/hackathon/public/")
+			productService = productClient.resource(UriBuilder.fromUri("http://productapipqa-vip.bcinfra.net:9000/v1/")
 					.build());
 		}
 		return productService;
