@@ -10,9 +10,9 @@
 	<artifactId>backtoback</artifactId>
 
 	<properties>
-		<app.id>backtoback-975</app.id>
+		<app.id>backtoback-01</app.id>
 		<app.version>1</app.version>
-		<appengine.sdk.version>1.9.22</appengine.sdk.version>
+		<appengine.version>1.9.22</appengine.version>
 		<gcloud.plugin.version>0.9.58.v20150505</gcloud.plugin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jackson.version>2.5.3</jackson.version>
@@ -27,12 +27,12 @@
 		<dependency>
 			<groupId>com.google.appengine</groupId>
 			<artifactId>appengine-api-1.0-sdk</artifactId>
-			<version>${appengine.sdk.version}</version>
+			<version>${appengine.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.appengine</groupId>
 			<artifactId>appengine-endpoints</artifactId>
-			<version>${appengine.sdk.version}</version>
+			<version>${appengine.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.googlecode.objectify</groupId>
@@ -94,13 +94,13 @@
 		<dependency>
 			<groupId>com.google.appengine</groupId>
 			<artifactId>appengine-testing</artifactId>
-			<version>${appengine.sdk.version}</version>
+			<version>${appengine.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.appengine</groupId>
 			<artifactId>appengine-api-stubs</artifactId>
-			<version>${appengine.sdk.version}</version>
+			<version>${appengine.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -153,9 +153,10 @@
 			<plugin>
 				<groupId>com.google.appengine</groupId>
 				<artifactId>appengine-maven-plugin</artifactId>
-				<version>${appengine.sdk.version}</version>
+				<version>${appengine.version}</version>
 				<configuration>
 					<enableJarClasses>false</enableJarClasses>
+					<version>${app.version}</version>
 					<!-- Comment in the below snippet to bind to all IPs instead of just 
 						localhost -->
 					<!-- address>0.0.0.0</address> <port>8080</port -->
