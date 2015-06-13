@@ -21,12 +21,12 @@ public class UserEntity {
 	private String username;
 	private String bio;
 	private List<String> passions;
-	private List<EventEntity> eventsAttendants;
-	private List<EventEntity> eventsCreated;
+	private List<Long> eventsAttendants;
+	private List<Long> eventsCreated;
 
 	public UserEntity() {
-		this.setEventsAttendants(new ArrayList<EventEntity>());
-		this.setEventsCreated(new ArrayList<EventEntity>());
+		this.setEventsAttendants(new ArrayList<Long>());
+		this.setEventsCreated(new ArrayList<Long>());
 	}
 
 	public UserEntity(String username, UsersPojo userPojo) {
@@ -82,24 +82,24 @@ public class UserEntity {
 		return username;
 	}
 
-	public List<EventEntity> getEventsAttendants() {
+	public List<Long> getEventsAttendants() {
 		return eventsAttendants;
 	}
 
-	public void setEventsAttendants(List<EventEntity> eventsAttendants) {
+	public void setEventsAttendants(List<Long> eventsAttendants) {
 		this.eventsAttendants = eventsAttendants;
 	}
 
-	public List<EventEntity> getEventsCreated() {
+	public List<Long> getEventsCreated() {
 		return eventsCreated;
 	}
 
-	public void setEventsCreated(List<EventEntity> eventsCreated) {
+	public void setEventsCreated(List<Long> eventsCreated) {
 		this.eventsCreated = eventsCreated;
 	}
 
 	public void attendEvent(EventEntity eventEntity) {
-		this.eventsAttendants.add(eventEntity);
+		this.eventsAttendants.add(eventEntity.getId());
 	}
 
 	public void removeAttendant(EventEntity eventEntity) {
@@ -107,6 +107,6 @@ public class UserEntity {
 	}
 
 	public void createEvent(EventEntity eventEntity) {
-		this.eventsCreated.add(eventEntity);
+		this.eventsCreated.add(eventEntity.getId());
 	}
 }

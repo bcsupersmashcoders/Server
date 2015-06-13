@@ -19,16 +19,15 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.repackaged.com.google.gson.JsonArray;
-import com.google.appengine.repackaged.com.google.gson.JsonElement;
 import com.google.appengine.repackaged.com.google.gson.JsonObject;
 import com.google.appengine.repackaged.com.google.gson.JsonParser;
 import com.googlecode.objectify.ObjectifyService;
 import com.sun.jersey.api.client.WebResource;
 
 public class EventsHandlingService {
-	
+
 	private final String productsPath = "categories/{categoryId}/products";
-	
+
 	public EventEntity createEvent(EventEntity event) {
 		event.setProducts(getProducts(event.getTag()));
 		ObjectifyService.ofy().save().entity(event).now();
@@ -43,7 +42,7 @@ public class EventsHandlingService {
 			return event;
 		} catch (EntityNotFoundException e) {
 			throw new NotFoundException("No event exists with id " + id);
-		}	
+		}
 	}
 
 	public List<EventEntity> getEvents() {
@@ -67,30 +66,27 @@ public class EventsHandlingService {
 		eventEntity.removeAttendant(userEntity);
 		ObjectifyService.ofy().save().entity(eventEntity).now();
 	}
-	
-	public List<ProductEntity> getProducts(String categoryId){
+
+	public List<ProductEntity> getProducts(String categoryId) {
 		String sourcePath = productsPath;
 		sourcePath = sourcePath.replace("{categoryId}", categoryId);
 		List<ProductEntity> products = new ArrayList<ProductEntity>();
-		WebResource wr = JerseyClient.getProductService().path(sourcePath)
-															.queryParam("site", "bcs")
-															.queryParam("outlet", "false")
-															.queryParam("offset","0")
-															.queryParam("limit", "10")
-															.queryParam("preview", "false")
-															.queryParam("debug", "false")
-															.queryParam("sort", "reviewAverage desc");
-		try{
+		WebResource wr = JerseyClient.getProductService().path(sourcePath).queryParam("site", "bcs")
+				.queryParam("outlet", "false").queryParam("offset", "0").queryParam("limit", "10")
+				.queryParam("preview", "false").queryParam("debug", "false").queryParam("sort", "reviewAverage desc");
+		try {
 			String responseString = wr.accept(MediaType.APPLICATION_JSON).get(String.class);
 			JsonParser parser = new JsonParser();
 			JsonObject response = (JsonObject) parser.parse(responseString);
 			JsonArray productsArray = response.getAsJsonArray("products");
-			for (int i = 0; i < productsArray.size() ; i ++){
+			for (int i = 0; i < productsArray.size(); i++) {
 				JsonObject product = productsArray.get(i).getAsJsonObject();
 				String id = product.get("id").getAsString();
 				String name = product.get("title").getAsString();
-				String productURL = product.get("skus").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
-				String photoURL = product.get("skus").getAsJsonArray().get(0).getAsJsonObject().get("image").getAsJsonObject().get("url").getAsString();
+				String productURL = product.get("skus").getAsJsonArray().get(0).getAsJsonObject().get("url")
+						.getAsString();
+				String photoURL = product.get("skus").getAsJsonArray().get(0).getAsJsonObject().get("image")
+						.getAsJsonObject().get("url").getAsString();
 				products.add(new ProductEntity(id, name, productURL, photoURL));
 			}
 		}catch( Exception e){
@@ -98,5 +94,5 @@ public class EventsHandlingService {
 		}
 		return products;
 	}
-	
+
 }
