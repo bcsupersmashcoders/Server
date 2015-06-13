@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
+import com.backtoback.backcountry.api.ProductAPI;
 import com.backtoback.entities.events.EventEntity;
 import com.backtoback.entities.products.ProductEntity;
 import com.backtoback.entities.users.UserEntity;
@@ -93,7 +94,7 @@ public class EventsHandlingService {
 				products.add(new ProductEntity(id, name, productURL, photoURL));
 			}
 		}catch( Exception e){
-			return products;
+			return ProductAPI.getProducts();
 		}
 		return products;
 	}
