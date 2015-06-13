@@ -42,7 +42,7 @@ public class EventsHandlingService {
 			return event;
 		} catch (EntityNotFoundException e) {
 			throw new NotFoundException("No event exists with id " + id);
-		}
+		}	
 	}
 
 	public List<EventEntity> getEvents() {

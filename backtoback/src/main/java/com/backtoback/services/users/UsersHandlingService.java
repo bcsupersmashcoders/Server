@@ -11,6 +11,7 @@ import com.backtoback.backcountry.pojos.UsersPojo;
 import com.backtoback.entities.events.EventEntity;
 import com.backtoback.entities.users.UserEntity;
 import com.backtoback.helpers.JerseyClient;
+import com.backtoback.pojos.LoginResource;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -77,15 +78,15 @@ public class UsersHandlingService {
 		return user.getEventsCreated();
 	}
 
-	public UserEntity loginUser(String username, String password) throws ConflictException, JsonParseException,
+	public UserEntity loginUser(LoginResource loginResource) throws ConflictException, JsonParseException,
 			JsonMappingException, IOException {
-		if (StringUtils.equals(username, "bcsupersmashcoders@gmail.com")
-				&& StringUtils.equals(password, "superpassword")) {
-			return retrieveAndPersistUser("1276472865", username);
+		if (StringUtils.equals(loginResource.getUsername(), "bcsupersmashcoders@gmail.com")
+				&& StringUtils.equals(loginResource.getPassword(), "12345678")) {
+			return retrieveAndPersistUser("2381013009", loginResource.getUsername());
 		}
-		if (StringUtils.equals(username, "supersmashcoders@gmail.com") && StringUtils.equals(password, "ikeestoa")) {
-			// retrieve user
-			return null;
+		if (StringUtils.equals(loginResource.getUsername(), "supersmashcoders@gmail.com")
+				&& StringUtils.equals(loginResource.getPassword(), "12345678")) {
+			return retrieveAndPersistUser("2381005179", loginResource.getUsername());
 		}
 		return null;
 	}

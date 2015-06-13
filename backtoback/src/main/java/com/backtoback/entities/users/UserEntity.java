@@ -15,6 +15,7 @@ public class UserEntity {
 	@Id
 	private Long id;
 	@Index
+	private String backcountryUserId;
 	private String username;
 	private String bio;
 	private List<String> passions;
@@ -30,11 +31,13 @@ public class UserEntity {
 		this.username = username;
 		this.bio = userPojo.getBio();
 		this.passions = userPojo.getPassions();
+		this.backcountryUserId = userPojo.getUserId();
 	}
 
 	public void merge(UsersPojo userPojo) {
 		this.bio = userPojo.getBio();
 		this.passions = userPojo.getPassions();
+		this.backcountryUserId = userPojo.getUserId();
 	}
 
 	public Long getId() {
@@ -43,6 +46,14 @@ public class UserEntity {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getBackcountryUserId() {
+		return backcountryUserId;
+	}
+
+	public void setBackcountryUserId(String backcountryUserId) {
+		this.backcountryUserId = backcountryUserId;
 	}
 
 	public String getBio() {
