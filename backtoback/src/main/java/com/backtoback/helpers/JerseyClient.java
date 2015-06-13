@@ -9,16 +9,30 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 public class JerseyClient {
 	private static ClientConfig config = null;
-	private static Client client = null;
-	private static WebResource service = null;
+	// Hackathon API
+	private static Client hackathonClient = null;
+	private static WebResource hackathonService = null;
+	// Product API
+	private static Client productClient = null;
+	private static WebResource productService = null;
 
-	public static WebResource getService() {
+	public static WebResource getHackathonService() {
 		if (config == null) {
 			config = new DefaultClientConfig();
-			client = Client.create(config);
-			service = client.resource(UriBuilder.fromUri("http://hackathon.backcountry.com:8081/hackathon/public/")
+			hackathonClient = Client.create(config);
+			hackathonService = hackathonClient.resource(UriBuilder.fromUri("http://hackathon.backcountry.com:8081/hackathon/public/")
 					.build());
 		}
-		return service;
+		return hackathonService;
+	}
+	
+	public static WebResource getProductService() {
+		if (config == null) {
+			config = new DefaultClientConfig();
+			productClient = Client.create(config);
+			productService = productClient.resource(UriBuilder.fromUri("http://hackathon.backcountry.com:8081/hackathon/public/")
+					.build());
+		}
+		return productService;
 	}
 }
