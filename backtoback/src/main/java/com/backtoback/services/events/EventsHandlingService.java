@@ -59,6 +59,8 @@ public class EventsHandlingService {
 	}
 	
 	private List<ProductEntity> getProducts(String categoryId){
+		String sourcePath = productsPath;
+		sourcePath = sourcePath.replace("{categoryId}", categoryId);
 		return null;
 	}
 	
