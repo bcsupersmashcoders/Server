@@ -81,13 +81,12 @@ public class UsersHandlingService {
 	public UserEntity loginUser(LoginResource loginResource) throws ConflictException, JsonParseException,
 			JsonMappingException, IOException {
 		if (StringUtils.equals(loginResource.getUsername(), "bcsupersmashcoders@gmail.com")
-				&& StringUtils.equals(loginResource.getPassword(), "superpassword")) {
-			return retrieveAndPersistUser("1276472865", loginResource.getUsername());
+				&& StringUtils.equals(loginResource.getPassword(), "12345678")) {
+			return retrieveAndPersistUser("2381013009", loginResource.getUsername());
 		}
 		if (StringUtils.equals(loginResource.getUsername(), "supersmashcoders@gmail.com")
-				&& StringUtils.equals(loginResource.getPassword(), "ikeestoa")) {
-			// retrieve user
-			return null;
+				&& StringUtils.equals(loginResource.getPassword(), "12345678")) {
+			return retrieveAndPersistUser("2381005179", loginResource.getUsername());
 		}
 		return null;
 	}
