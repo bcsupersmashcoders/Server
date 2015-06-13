@@ -18,6 +18,9 @@ public class JerseyClient {
 	// Community API
 	private static Client communityClient = null;
 	private static WebResource communityService = null;
+	// Notifications API
+	private static Client notificationClient = null;
+	private static WebResource notificationService = null;
 
 	public static WebResource getHackathonService() {
 		if (hackathonService == null) {
@@ -47,6 +50,16 @@ public class JerseyClient {
 					"http://communityapipqa-vip.bcinfra.net:9001/v1/").build());
 		}
 		return communityService;
+	}
+	
+	public static WebResource getNotificationService() {
+		if (notificationService == null) {
+			config = new DefaultClientConfig();
+			notificationClient = Client.create(config);
+			notificationService = notificationClient.resource(UriBuilder.fromUri("http://tomcatdev01.bcinfra.net:9001/v1/")
+														.build());
+		}
+		return notificationService;
 	}
 
 }

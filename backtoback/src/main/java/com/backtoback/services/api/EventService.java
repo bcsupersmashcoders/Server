@@ -11,6 +11,7 @@ import com.backtoback.pojos.LoginResource;
 import com.backtoback.pojos.URLResource;
 import com.backtoback.services.events.EventsHandlingService;
 import com.backtoback.services.images.ImageHandlingService;
+import com.backtoback.services.notifications.NotificationsHandlingService;
 import com.backtoback.services.users.UsersHandlingService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -29,6 +30,7 @@ public class EventService {
 	private ImageHandlingService imageService = new ImageHandlingService();
 	private EventsHandlingService eventService = new EventsHandlingService();
 	private UsersHandlingService userService = new UsersHandlingService();
+	private NotificationsHandlingService notificationService = new NotificationsHandlingService();
 
 	@ApiMethod(name = "createEvent", httpMethod = HttpMethod.POST, path = "event")
 	public EventEntity createEvent(EventEntity event) {
@@ -101,5 +103,11 @@ public class EventService {
 	public List<ProductEntity> getProducts(@Named("categoryId") String categoryId) throws NotFoundException,
 			ConflictException {
 		return eventService.getProducts(categoryId);
+	}
+	
+	@ApiMethod(name = "pushNotification", path = "notification/{userId}", httpMethod = HttpMethod.POST)
+	public void pushNotification(@Named("userId") String userId) throws NotFoundException,
+			ConflictException {
+		notificationService.pushNotification(userId);
 	}
 }
