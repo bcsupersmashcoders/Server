@@ -32,6 +32,11 @@ public class UserEntity {
 		this.passions = userPojo.getPassions();
 	}
 
+	public void merge(UsersPojo userPojo) {
+		this.bio = userPojo.getBio();
+		this.passions = userPojo.getPassions();
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -91,5 +96,4 @@ public class UserEntity {
 	public void createEvent(EventEntity eventEntity) {
 		this.eventsCreated.add(eventEntity);
 	}
-
 }

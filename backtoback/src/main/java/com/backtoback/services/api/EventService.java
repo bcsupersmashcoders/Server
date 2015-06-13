@@ -1,5 +1,6 @@
 package com.backtoback.services.api;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.backtoback.entities.events.EventEntity;
@@ -9,6 +10,8 @@ import com.backtoback.pojos.URLResource;
 import com.backtoback.services.events.EventsHandlingService;
 import com.backtoback.services.images.ImageHandlingService;
 import com.backtoback.services.users.UsersHandlingService;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiMethod.HttpMethod;
@@ -79,7 +82,7 @@ public class EventService {
 
 	@ApiMethod(name = "loginUser", path = "users/login", httpMethod = HttpMethod.POST)
 	public UserEntity loginUser(@Named("username") String username, @Named("password") String password)
-			throws NotFoundException, ConflictException {
+			throws NotFoundException, ConflictException, JsonParseException, JsonMappingException, IOException {
 		return userService.loginUser(username, password);
 	}
 }

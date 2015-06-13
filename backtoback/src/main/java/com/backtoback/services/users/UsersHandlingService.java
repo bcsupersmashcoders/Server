@@ -1,5 +1,6 @@
 package com.backtoback.services.users;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -10,6 +11,8 @@ import com.backtoback.backcountry.pojos.UsersPojo;
 import com.backtoback.entities.events.EventEntity;
 import com.backtoback.entities.users.UserEntity;
 import com.backtoback.helpers.JerseyClient;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.NotFoundException;
@@ -74,10 +77,11 @@ public class UsersHandlingService {
 		return user.getEventsCreated();
 	}
 
-	public UserEntity loginUser(String username, String password) throws ConflictException {
+	public UserEntity loginUser(String username, String password) throws ConflictException, JsonParseException,
+			JsonMappingException, IOException {
 		if (StringUtils.equals(username, "bcsupersmashcoders@gmail.com")
 				&& StringUtils.equals(password, "superpassword")) {
-			return retrieveAndPersistUser("2029770186", username);
+			return retrieveAndPersistUser("1276472865", username);
 		}
 		if (StringUtils.equals(username, "supersmashcoders@gmail.com") && StringUtils.equals(password, "ikeestoa")) {
 			// retrieve user
@@ -86,26 +90,23 @@ public class UsersHandlingService {
 		return null;
 	}
 
-	private UserEntity retrieveAndPersistUser(String userId, String username) throws ConflictException {
+	private UserEntity retrieveAndPersistUser(String userId, String username) throws ConflictException,
+			JsonParseException, JsonMappingException, IOException {
 		WebResource wr = JerseyClient.getCommunityService().path("users/" + userId).queryParam("siteId", "1")
 				.queryParam("hasIcEmail", "false");
 
 		String userString = wr.accept(MediaType.APPLICATION_JSON).get(String.class);
 		ObjectMapper mapper = new ObjectMapper();
 		UsersPojo userPojo = null;
-		try {
-			System.out.println("JPA before read");
-			userPojo = mapper.readValue(userString, UsersPojo.class);
-			System.out.println("JPA after read");
-			System.out.println(userPojo);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		userPojo = mapper.readValue(userString, UsersPojo.class);
 		UserEntity userEntity = getUser(username);
 		if (userEntity == null) {
 			userEntity = new UserEntity(username, userPojo);
-			ObjectifyService.ofy().save().entity(userEntity).now();
+		} else {
+			userEntity.merge(userPojo);
 		}
+		ObjectifyService.ofy().save().entity(userEntity).now();
+
 		return userEntity;
 	}
 }

@@ -52,4 +52,10 @@ public class UsersPojo {
 	public void setPassions(List<String> passions) {
 		this.passions = passions;
 	}
+
+	@Override
+	public String toString() {
+		return "UsersPojo [userId=" + userId + ", displayName=" + displayName + ", profileUrl=" + profileUrl + ", bio="
+				+ bio + ", passions=" + passions + "]";
+	}
 }
