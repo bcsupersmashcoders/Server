@@ -3,11 +3,11 @@
 	<cron>
 		<url>/postPhotos</url>
 		<description>postPhotos</description>
-		<schedule>every 1 minute</schedule>
+		<schedule>every 1 minutes</schedule>
 	</cron>
 	<cron>
 		<url>/notificateEvents</url>
 		<description>notificateUsers</description>
-		<schedule>every 5 minute</schedule>
+		<schedule>every 5 minutes</schedule>
 	</cron>
 </cronentries>
