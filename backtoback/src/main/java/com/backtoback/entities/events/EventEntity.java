@@ -23,15 +23,15 @@ public class EventEntity {
 	private Date endDate;
 	private GeoPt geoPoint;
 	private UserEntity owner;
-	private String tags;
+	private String tag;
 	private List<ProductEntity> products;
 	private List<UserEntity> attendants;
 	private List<String> photos;
 
 	public EventEntity() {
 		setProducts(new ArrayList<ProductEntity>());
-		attendants = new ArrayList<UserEntity>();
-		photos = new ArrayList<String>();
+		setAttendants(new ArrayList<UserEntity>());
+		setPhotos(new ArrayList<String>());
 	}
 
 	public Long getId() {
@@ -90,14 +90,6 @@ public class EventEntity {
 		this.owner = owner;
 	}
 
-	public String getTags() {
-		return tags;
-	}
-
-	public void setTags(String tags) {
-		this.tags = tags;
-	}
-
 	public List<UserEntity> getAttendants() {
 		return attendants;
 	}
@@ -129,4 +121,13 @@ public class EventEntity {
 	public void setProducts(List<ProductEntity> products) {
 		this.products = products;
 	}
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+	
 }
