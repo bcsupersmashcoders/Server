@@ -79,7 +79,7 @@ public class UsersHandlingService {
 	}
 
 	public UserEntity loginUser(LoginResource loginResource) throws ConflictException, JsonParseException,
-			JsonMappingException, IOException {
+			JsonMappingException, IOException, NotFoundException {
 		if (StringUtils.equals(loginResource.getUsername(), "bcsupersmashcoders@gmail.com")
 				&& StringUtils.equals(loginResource.getPassword(), "12345678")) {
 			return retrieveAndPersistUser("2381013009", loginResource.getUsername());
@@ -92,7 +92,7 @@ public class UsersHandlingService {
 	}
 
 	private UserEntity retrieveAndPersistUser(String userId, String username) throws ConflictException,
-			JsonParseException, JsonMappingException, IOException {
+			JsonParseException, JsonMappingException, IOException, NotFoundException {
 		UsersPojo userPojo = null;
 		try {
 			WebResource wr = JerseyClient.getCommunityService().path("users/" + userId).queryParam("siteId", "1")
