@@ -22,7 +22,7 @@ public class EventEntity {
 	private Date startDate;
 	private Date endDate;
 	private GeoPt geoPoint;
-	private UserEntity owner;
+	private String owner;
 	private String tag;
 	private List<ProductEntity> products;
 	private List<UserEntity> attendants;
@@ -82,11 +82,11 @@ public class EventEntity {
 		this.geoPoint = geoPoint;
 	}
 
-	public UserEntity getOwner() {
+	public String getOwner() {
 		return owner;
 	}
 
-	public void setOwner(UserEntity owner) {
+	public void setOwner(String owner) {
 		this.owner = owner;
 	}
 

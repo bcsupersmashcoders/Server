@@ -1,13 +1,15 @@
 package com.backtoback.entities.products;
 
+import com.googlecode.objectify.annotation.Embed;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
 @Entity
+@Embed
 public class ProductEntity {
 
 	@Id
-	private Long id;
+	private String id;
 	private String name;
 	private String productURL;
 	private String photoURL;
@@ -16,18 +18,19 @@ public class ProductEntity {
 		super();
 	}
 
-	public ProductEntity(String name, String productURL, String photoURL) {
+	public ProductEntity(String id, String name, String productURL, String photoURL) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.productURL = productURL;
 		this.photoURL = photoURL;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

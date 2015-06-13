@@ -70,6 +70,7 @@ public class EventsHandlingService {
 	public List<ProductEntity> getProducts(String categoryId){
 		String sourcePath = productsPath;
 		sourcePath = sourcePath.replace("{categoryId}", categoryId);
+		List<ProductEntity> products = new ArrayList<ProductEntity>();
 		WebResource wr = JerseyClient.getProductService().path(sourcePath)
 															.queryParam("site", "bcs")
 															.queryParam("outlet", "false")
@@ -78,18 +79,21 @@ public class EventsHandlingService {
 															.queryParam("preview", "false")
 															.queryParam("debug", "false")
 															.queryParam("sort", "reviewAverage desc");
-		
-		String responseString = wr.accept(MediaType.APPLICATION_JSON).get(String.class);
-		List<ProductEntity> products = new ArrayList<ProductEntity>();
-		JsonParser parser = new JsonParser();
-		JsonObject response = (JsonObject) parser.parse(responseString);
-		JsonArray productsArray = response.getAsJsonArray("products");
-		for (int i = 0; i < productsArray.size() ; i ++){
-			JsonObject product = productsArray.get(i).getAsJsonObject();
-			String name = product.get("title").getAsString();
-			String productURL = product.get("skus").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
-			String photoURL = product.get("skus").getAsJsonArray().get(0).getAsJsonObject().get("image").getAsJsonObject().get("url").getAsString();
-			products.add(new ProductEntity(name, productURL, photoURL));
+		try{
+			String responseString = wr.accept(MediaType.APPLICATION_JSON).get(String.class);
+			JsonParser parser = new JsonParser();
+			JsonObject response = (JsonObject) parser.parse(responseString);
+			JsonArray productsArray = response.getAsJsonArray("products");
+			for (int i = 0; i < productsArray.size() ; i ++){
+				JsonObject product = productsArray.get(i).getAsJsonObject();
+				String id = product.get("id").getAsString();
+				String name = product.get("title").getAsString();
+				String productURL = product.get("skus").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
+				String photoURL = product.get("skus").getAsJsonArray().get(0).getAsJsonObject().get("image").getAsJsonObject().get("url").getAsString();
+				products.add(new ProductEntity(id, name, productURL, photoURL));
+			}
+		}catch( Exception e){
+			return products;
 		}
 		return products;
 	}
