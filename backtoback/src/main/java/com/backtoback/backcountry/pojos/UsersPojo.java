@@ -2,6 +2,9 @@ package com.backtoback.backcountry.pojos;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UsersPojo {
 
 	private String userId;
@@ -48,5 +51,11 @@ public class UsersPojo {
 
 	public void setPassions(List<String> passions) {
 		this.passions = passions;
+	}
+
+	@Override
+	public String toString() {
+		return "UsersPojo [userId=" + userId + ", displayName=" + displayName + ", profileUrl=" + profileUrl + ", bio="
+				+ bio + ", passions=" + passions + "]";
 	}
 }
