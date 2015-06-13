@@ -20,7 +20,7 @@ public class JerseyClient {
 	private static WebResource communityService = null;
 
 	public static WebResource getHackathonService() {
-		if (config == null) {
+		if (hackathonService == null) {
 			config = new DefaultClientConfig();
 			hackathonClient = Client.create(config);
 			hackathonService = hackathonClient.resource(UriBuilder.fromUri(
@@ -30,7 +30,7 @@ public class JerseyClient {
 	}
 
 	public static WebResource getProductService() {
-		if (config == null) {
+		if (productService == null) {
 			config = new DefaultClientConfig();
 			productClient = Client.create(config);
 			productService = productClient.resource(UriBuilder.fromUri("http://productapipqa-vip.bcinfra.net:9000/v1/")
@@ -40,7 +40,7 @@ public class JerseyClient {
 	}
 
 	public static WebResource getCommunityService() {
-		if (config == null) {
+		if (communityService == null) {
 			config = new DefaultClientConfig();
 			communityClient = Client.create(config);
 			communityService = communityClient.resource(UriBuilder.fromUri(

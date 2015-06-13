@@ -5,13 +5,11 @@ import java.util.List;
 
 import com.backtoback.backcountry.pojos.UsersPojo;
 import com.backtoback.entities.events.EventEntity;
-import com.googlecode.objectify.annotation.Embed;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 @Entity
-@Embed
 public class UserEntity {
 
 	@Id
@@ -99,11 +97,13 @@ public class UserEntity {
 	}
 
 	public void attendEvent(EventEntity eventEntity) {
-		this.eventsAttendants.add(eventEntity.getId());
+		if (!this.eventsAttendants.contains(eventEntity.getId())) {
+			this.eventsAttendants.add(eventEntity.getId());
+		}
 	}
 
 	public void removeAttendant(EventEntity eventEntity) {
-		this.eventsAttendants.remove(eventEntity);
+		this.eventsAttendants.remove(eventEntity.getId());
 	}
 
 	public void createEvent(EventEntity eventEntity) {

@@ -45,13 +45,13 @@ public class EventService {
 		return eventService.getEvents();
 	}
 
-	@ApiMethod(name = "getEventsCreated", httpMethod = HttpMethod.GET, path = "users/{id}/events/created")
+	@ApiMethod(name = "getEventsCreated", httpMethod = HttpMethod.GET, path = "users/events/created")
 	public List<EventEntity> getEventsCreated(@Named("username") String username) throws NotFoundException,
 			ConflictException {
 		return userService.getEventsCreated(username);
 	}
 
-	@ApiMethod(name = "getEventsAttending", httpMethod = HttpMethod.GET, path = "users/{id}/events/attended")
+	@ApiMethod(name = "getEventsAttending", httpMethod = HttpMethod.GET, path = "users/events/attended")
 	public List<EventEntity> getEventsAttending(@Named("username") String username) throws NotFoundException,
 			ConflictException {
 		return userService.getEventsAttending(username);

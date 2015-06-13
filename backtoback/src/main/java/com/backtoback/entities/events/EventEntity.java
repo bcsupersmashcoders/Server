@@ -25,12 +25,12 @@ public class EventEntity {
 	private String owner;
 	private String tag;
 	private List<ProductEntity> products;
-	private List<UserEntity> attendants;
+	private List<String> attendants;
 	private List<String> photos;
 
 	public EventEntity() {
 		setProducts(new ArrayList<ProductEntity>());
-		setAttendants(new ArrayList<UserEntity>());
+		setAttendants(new ArrayList<String>());
 		setPhotos(new ArrayList<String>());
 	}
 
@@ -90,11 +90,11 @@ public class EventEntity {
 		this.owner = owner;
 	}
 
-	public List<UserEntity> getAttendants() {
+	public List<String> getAttendants() {
 		return attendants;
 	}
 
-	public void setAttendants(List<UserEntity> attendants) {
+	public void setAttendants(List<String> attendants) {
 		this.attendants = attendants;
 	}
 
@@ -107,11 +107,13 @@ public class EventEntity {
 	}
 
 	public void addAttendant(UserEntity userEntity) {
-		this.attendants.add(userEntity);
+		if (!this.attendants.contains(userEntity.getUsername())) {
+			this.attendants.add(userEntity.getUsername());
+		}
 	}
 
 	public void removeAttendant(UserEntity userEntity) {
-		this.attendants.remove(userEntity);
+		this.attendants.remove(userEntity.getUsername());
 	}
 
 	public List<ProductEntity> getProducts() {
