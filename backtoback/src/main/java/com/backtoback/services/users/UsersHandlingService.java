@@ -88,15 +88,17 @@ public class UsersHandlingService {
 
 	private UserEntity retrieveAndPersistUser(String userId, String username) throws ConflictException {
 		WebResource wr = JerseyClient.getCommunityService().path("users/" + userId).queryParam("siteId", "1")
-				.queryParam("hasIcEmail", "false").queryParam("callback", "null");
+				.queryParam("hasIcEmail", "false");
 
 		String userString = wr.accept(MediaType.APPLICATION_JSON).get(String.class);
 		ObjectMapper mapper = new ObjectMapper();
 		UsersPojo userPojo = null;
 		try {
+			System.out.println("JPA before read");
 			userPojo = mapper.readValue(userString, UsersPojo.class);
+			System.out.println("JPA after read");
+			System.out.println(userPojo);
 		} catch (Exception e) {
-
 			e.printStackTrace();
 		}
 		UserEntity userEntity = getUser(username);

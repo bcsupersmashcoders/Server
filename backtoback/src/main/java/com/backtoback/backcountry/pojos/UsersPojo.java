@@ -2,6 +2,9 @@ package com.backtoback.backcountry.pojos;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UsersPojo {
 
 	private String userId;
