@@ -99,9 +99,16 @@ public class UsersHandlingService {
 		ObjectifyService.ofy().save().entity(userEntity).now();
 	}
 
-	public void loginUser(String username, String password) {
-		if (StringUtils.equals(username, "") && StringUtils.equals(password, "")) {
-
+	public UserEntity loginUser(String username, String password) {
+		if (StringUtils.equals(username, "bcsupersmashcoders@gmail.com")
+				&& StringUtils.equals(password, "superpassword")) {
+			// retrieve user
+			return null;
 		}
+		if (StringUtils.equals(username, "supersmashcoders@gmail.com") && StringUtils.equals(password, "ikeestoa")) {
+			// retrieve user
+			return null;
+		}
+		return null;
 	}
 }

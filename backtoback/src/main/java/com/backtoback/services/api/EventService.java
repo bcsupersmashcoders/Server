@@ -82,7 +82,8 @@ public class EventService {
 	}
 
 	@ApiMethod(name = "getUser", path = "users/getUser", httpMethod = HttpMethod.POST)
-	public UserEntity getUser(@Named("username") String username) throws NotFoundException {
-		return userService.getUser(username);
+	public UserEntity loginUser(@Named("username") String username, @Named("password") String password)
+			throws NotFoundException {
+		return userService.loginUser(username, password);
 	}
 }
