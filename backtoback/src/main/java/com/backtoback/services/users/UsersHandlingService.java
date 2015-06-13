@@ -68,13 +68,13 @@ public class UsersHandlingService {
 		ObjectifyService.ofy().save().entity(userEntity).now();
 	}
 
-	public List<EventEntity> getEventsAttending(String id) throws NotFoundException {
-		UserEntity user = getUserById(id);
+	public List<EventEntity> getEventsAttending(String username) throws NotFoundException, ConflictException {
+		UserEntity user = getUser(username);
 		return user.getEventsAttendants();
 	}
 
-	public List<EventEntity> getEventsCreated(String id) throws NotFoundException {
-		UserEntity user = getUserById(id);
+	public List<EventEntity> getEventsCreated(String username) throws NotFoundException, ConflictException {
+		UserEntity user = getUser(username);
 		return user.getEventsCreated();
 	}
 
@@ -93,13 +93,19 @@ public class UsersHandlingService {
 
 	private UserEntity retrieveAndPersistUser(String userId, String username) throws ConflictException,
 			JsonParseException, JsonMappingException, IOException {
-		WebResource wr = JerseyClient.getCommunityService().path("users/" + userId).queryParam("siteId", "1")
-				.queryParam("hasIcEmail", "false");
-
-		String userString = wr.accept(MediaType.APPLICATION_JSON).get(String.class);
-		ObjectMapper mapper = new ObjectMapper();
 		UsersPojo userPojo = null;
-		userPojo = mapper.readValue(userString, UsersPojo.class);
+		try {
+			WebResource wr = JerseyClient.getCommunityService().path("users/" + userId).queryParam("siteId", "1")
+					.queryParam("hasIcEmail", "false");
+
+			String userString = wr.accept(MediaType.APPLICATION_JSON).get(String.class);
+			ObjectMapper mapper = new ObjectMapper();
+			userPojo = mapper.readValue(userString, UsersPojo.class);
+		} catch (Exception e) {
+			userPojo = new UsersPojo();
+			userPojo.setUserId(userId);
+			userPojo.setBio("Esta es mi bio");
+		}
 		UserEntity userEntity = getUser(username);
 		if (userEntity == null) {
 			userEntity = new UserEntity(username, userPojo);

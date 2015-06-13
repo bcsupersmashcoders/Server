@@ -46,13 +46,15 @@ public class EventService {
 	}
 
 	@ApiMethod(name = "getEventsCreated", httpMethod = HttpMethod.GET, path = "users/{id}/events/created")
-	public List<EventEntity> getEventsCreated(@Named("id") String id) throws NotFoundException {
-		return userService.getEventsCreated(id);
+	public List<EventEntity> getEventsCreated(@Named("username") String username) throws NotFoundException,
+			ConflictException {
+		return userService.getEventsCreated(username);
 	}
 
 	@ApiMethod(name = "getEventsAttending", httpMethod = HttpMethod.GET, path = "users/{id}/events/attended")
-	public List<EventEntity> getEventsAttending(@Named("id") String id) throws NotFoundException {
-		return userService.getEventsAttending(id);
+	public List<EventEntity> getEventsAttending(@Named("username") String username) throws NotFoundException,
+			ConflictException {
+		return userService.getEventsAttending(username);
 	}
 
 	@ApiMethod(name = "getUrl", path = "images/url", httpMethod = HttpMethod.GET)
@@ -66,19 +68,19 @@ public class EventService {
 	}
 
 	@ApiMethod(name = "attendEvent", path = "events/attendants", httpMethod = HttpMethod.PUT)
-	public void attendEvent(@Named("eventId") String eventId, @Named("userId") String userId) throws NotFoundException,
-			ConflictException {
+	public void attendEvent(@Named("eventId") String eventId, @Named("username") String username)
+			throws NotFoundException, ConflictException {
 		EventEntity event = getEvent(eventId);
-		UserEntity user = userService.getUser(userId);
+		UserEntity user = userService.getUser(username);
 		eventService.attendEvent(event, user);
 		userService.attendEvent(event, user);
 	}
 
 	@ApiMethod(name = "removeAttendance", path = "events/attendants", httpMethod = HttpMethod.DELETE)
-	public void removeAttendance(@Named("eventId") String eventId, @Named("userId") String userId)
+	public void removeAttendance(@Named("eventId") String eventId, @Named("username") String username)
 			throws NotFoundException, ConflictException {
 		EventEntity event = getEvent(eventId);
-		UserEntity user = userService.getUser(userId);
+		UserEntity user = userService.getUser(username);
 		eventService.removeAttendance(event, user);
 		userService.removeAttendance(event, user);
 	}
