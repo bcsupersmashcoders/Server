@@ -44,7 +44,7 @@ public class UsersHandlingService {
 		}
 	}
 
-	private UserEntity getUser(String username) throws ConflictException {
+	public UserEntity getUser(String username) throws ConflictException {
 		Filter usernameFilter = new FilterPredicate("username", FilterOperator.EQUAL, username);
 		Query query = new Query("UserEntity").setFilter(usernameFilter);
 		List<Entity> entities = DatastoreServiceFactory.getDatastoreService().prepare(query)
