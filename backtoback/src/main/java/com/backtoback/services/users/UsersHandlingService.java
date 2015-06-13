@@ -1,6 +1,7 @@
 package com.backtoback.services.users;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -70,12 +71,26 @@ public class UsersHandlingService {
 
 	public List<EventEntity> getEventsAttending(String username) throws NotFoundException, ConflictException {
 		UserEntity user = getUser(username);
-		return user.getEventsAttendants();
+		List<Long> eventsIds = user.getEventsAttendants();
+		return idsToEntity(eventsIds);
 	}
 
 	public List<EventEntity> getEventsCreated(String username) throws NotFoundException, ConflictException {
 		UserEntity user = getUser(username);
-		return user.getEventsCreated();
+		List<Long> eventsIds = user.getEventsCreated();
+		return idsToEntity(eventsIds);
+	}
+
+	private List<EventEntity> idsToEntity(List<Long> eventIds) {
+		Filter usernameFilter = new FilterPredicate("id", FilterOperator.IN, eventIds);
+		Query query = new Query("UserEntity").setFilter(usernameFilter);
+		List<Entity> entities = DatastoreServiceFactory.getDatastoreService().prepare(query)
+				.asList(FetchOptions.Builder.withDefaults());
+		List<EventEntity> events = new ArrayList<EventEntity>();
+		for (Entity entity : entities) {
+			events.add((EventEntity) ObjectifyService.ofy().toPojo(entity));
+		}
+		return events;
 	}
 
 	public UserEntity loginUser(LoginResource loginResource) throws ConflictException, JsonParseException,

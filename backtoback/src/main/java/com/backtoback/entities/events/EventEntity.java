@@ -7,13 +7,11 @@ import java.util.List;
 import com.backtoback.entities.products.ProductEntity;
 import com.backtoback.entities.users.UserEntity;
 import com.google.appengine.api.datastore.GeoPt;
-import com.googlecode.objectify.annotation.Embed;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 @Entity
-@Embed
 public class EventEntity {
 
 	@Id
