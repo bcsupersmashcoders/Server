@@ -3,9 +3,12 @@ package com.backtoback.services.events;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.core.MediaType;
+
 import com.backtoback.entities.events.EventEntity;
 import com.backtoback.entities.products.ProductEntity;
 import com.backtoback.entities.users.UserEntity;
+import com.backtoback.helpers.JerseyClient;
 import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -14,14 +17,19 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.repackaged.com.google.gson.JsonArray;
+import com.google.appengine.repackaged.com.google.gson.JsonElement;
+import com.google.appengine.repackaged.com.google.gson.JsonObject;
+import com.google.appengine.repackaged.com.google.gson.JsonParser;
 import com.googlecode.objectify.ObjectifyService;
+import com.sun.jersey.api.client.WebResource;
 
 public class EventsHandlingService {
 	
-	private final String productsPath = "categories/bcsCat15000003/products?site=bcs&outlet=false&offset=0&limit=10&preview=false&debug=false&sort=reviewAverage%20desc";
+	private final String productsPath = "categories/{categortId}/products";
 	
 	public EventEntity createEvent(EventEntity event) {
-		com.googlecode.objectify.Key<EventEntity> key = ObjectifyService.ofy().save().entity(event).now();
+		ObjectifyService.ofy().save().entity(event).now();
 		return event;
 	}
 
@@ -58,10 +66,31 @@ public class EventsHandlingService {
 		ObjectifyService.ofy().save().entity(eventEntity).now();
 	}
 	
-	private List<ProductEntity> getProducts(String categoryId){
+	public List<ProductEntity> getProducts(String categoryId){
 		String sourcePath = productsPath;
 		sourcePath = sourcePath.replace("{categoryId}", categoryId);
-		return null;
+		WebResource wr = JerseyClient.getCommunityService().path(sourcePath)
+															.queryParam("site", "bcs")
+															.queryParam("outlet", "false")
+															.queryParam("offset","0")
+															.queryParam("limit", "100")
+															.queryParam("preview", "false")
+															.queryParam("debug", "false")
+															.queryParam("sort", "reviewAverage desc");
+		
+		String responseString = wr.accept(MediaType.APPLICATION_JSON).get(String.class);
+		List<ProductEntity> products = new ArrayList<ProductEntity>();
+		JsonParser parser = new JsonParser();
+		JsonObject response = (JsonObject) parser.parse(responseString);
+		JsonArray productsArray = response.getAsJsonArray("products");
+		for (int i = 0; i < productsArray.size() ; i ++){
+			JsonObject product = productsArray.get(i).getAsJsonObject();
+			String name = product.get("title").getAsString();
+			String productURL = product.get("skus").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
+			String photoURL = product.get("skus").getAsJsonArray().get(0).getAsJsonObject().get("image").getAsJsonObject().get("url").getAsString();
+			products.add(new ProductEntity(name, productURL, photoURL));
+		}
+		return products;
 	}
 	
 }

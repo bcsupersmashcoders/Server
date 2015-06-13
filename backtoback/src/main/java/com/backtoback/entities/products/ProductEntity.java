@@ -9,9 +9,19 @@ public class ProductEntity {
 	@Id
 	private Long id;
 	private String name;
-	private String brand;
 	private String productURL;
 	private String photoURL;
+
+	public ProductEntity() {
+		super();
+	}
+
+	public ProductEntity(String name, String productURL, String photoURL) {
+		super();
+		this.name = name;
+		this.productURL = productURL;
+		this.photoURL = photoURL;
+	}
 
 	public Long getId() {
 		return id;
@@ -27,14 +37,6 @@ public class ProductEntity {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getBrand() {
-		return brand;
-	}
-
-	public void setBrand(String brand) {
-		this.brand = brand;
 	}
 
 	public String getProductURL() {

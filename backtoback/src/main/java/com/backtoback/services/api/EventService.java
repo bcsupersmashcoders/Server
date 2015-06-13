@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.backtoback.entities.events.EventEntity;
 import com.backtoback.entities.images.ImageEntity;
+import com.backtoback.entities.products.ProductEntity;
 import com.backtoback.entities.users.UserEntity;
 import com.backtoback.pojos.URLResource;
 import com.backtoback.services.events.EventsHandlingService;
@@ -81,5 +82,11 @@ public class EventService {
 	public UserEntity loginUser(@Named("username") String username, @Named("password") String password)
 			throws NotFoundException, ConflictException {
 		return userService.loginUser(username, password);
+	}
+	
+	@ApiMethod(name = "getProducts", path = "event/products/{categoryId}", httpMethod = HttpMethod.GET)
+	public List<ProductEntity> getProducts(@Named("categoryId") String categoryId)
+			throws NotFoundException, ConflictException {
+		return eventService.getProducts(categoryId);
 	}
 }
