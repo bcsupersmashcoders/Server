@@ -5,17 +5,19 @@ import java.util.List;
 
 import com.backtoback.backcountry.pojos.UsersPojo;
 import com.backtoback.entities.events.EventEntity;
+import com.googlecode.objectify.annotation.Embed;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 @Entity
+@Embed
 public class UserEntity {
 
 	@Id
 	private Long id;
-	@Index
 	private String backcountryUserId;
+	@Index
 	private String username;
 	private String bio;
 	private List<String> passions;

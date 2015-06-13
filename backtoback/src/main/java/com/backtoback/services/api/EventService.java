@@ -69,18 +69,24 @@ public class EventService {
 
 	@ApiMethod(name = "attendEvent", path = "events/attendants", httpMethod = HttpMethod.PUT)
 	public void attendEvent(@Named("eventId") String eventId, @Named("username") String username)
-			throws NotFoundException, ConflictException {
+			throws ConflictException, NotFoundException {
 		EventEntity event = getEvent(eventId);
 		UserEntity user = userService.getUser(username);
+		if (user == null) {
+			throw new NotFoundException("No user found with username " + username);
+		}
 		eventService.attendEvent(event, user);
 		userService.attendEvent(event, user);
 	}
 
 	@ApiMethod(name = "removeAttendance", path = "events/attendants", httpMethod = HttpMethod.DELETE)
 	public void removeAttendance(@Named("eventId") String eventId, @Named("username") String username)
-			throws NotFoundException, ConflictException {
+			throws ConflictException, NotFoundException {
 		EventEntity event = getEvent(eventId);
 		UserEntity user = userService.getUser(username);
+		if (user == null) {
+			throw new NotFoundException("No user found with username " + username);
+		}
 		eventService.removeAttendance(event, user);
 		userService.removeAttendance(event, user);
 	}
