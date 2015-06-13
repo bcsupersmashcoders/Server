@@ -81,14 +81,21 @@ public class UsersHandlingService {
 		return idsToEntity(eventsIds);
 	}
 
-	private List<EventEntity> idsToEntity(List<Long> eventIds) {
-		Filter usernameFilter = new FilterPredicate("id", FilterOperator.IN, eventIds);
-		Query query = new Query("UserEntity").setFilter(usernameFilter);
-		List<Entity> entities = DatastoreServiceFactory.getDatastoreService().prepare(query)
-				.asList(FetchOptions.Builder.withDefaults());
+	private List<EventEntity> idsToEntity(List<Long> eventIds) throws NotFoundException {
 		List<EventEntity> events = new ArrayList<EventEntity>();
-		for (Entity entity : entities) {
-			events.add((EventEntity) ObjectifyService.ofy().toPojo(entity));
+		if (eventIds.size() > 0) {
+			for (Long entityId : eventIds) {
+
+				Key key = KeyFactory.createKey("EventEntity", entityId);
+				Entity entity = null;
+				try {
+					entity = DatastoreServiceFactory.getDatastoreService().get(key);
+					EventEntity event = ObjectifyService.ofy().toPojo(entity);
+					events.add(event);
+				} catch (EntityNotFoundException e) {
+					throw new NotFoundException("No event exists with id " + entityId);
+				}
+			}
 		}
 		return events;
 	}
