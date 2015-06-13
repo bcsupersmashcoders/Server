@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.backtoback.entities.products.ProductEntity;
 import com.backtoback.entities.users.UserEntity;
 import com.google.appengine.api.datastore.GeoPt;
 import com.googlecode.objectify.annotation.Entity;
@@ -28,7 +29,7 @@ public class EventEntity {
 	private List<String> photos;
 
 	public EventEntity() {
-		products = new ArrayList<ProductEntity>();
+		setProducts(new ArrayList<ProductEntity>());
 		attendants = new ArrayList<UserEntity>();
 		photos = new ArrayList<String>();
 	}
@@ -119,5 +120,13 @@ public class EventEntity {
 
 	public void removeAttendant(UserEntity userEntity) {
 		this.attendants.remove(userEntity);
+	}
+
+	public List<ProductEntity> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<ProductEntity> products) {
+		this.products = products;
 	}
 }

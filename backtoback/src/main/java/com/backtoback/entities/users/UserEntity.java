@@ -24,8 +24,7 @@ public class UserEntity {
 	private List<EventEntity> eventsAttendants;
 	private List<EventEntity> eventsCreated;
 
-	public UserEntity(String username, String password, String bio,
-			List<String> passions) {
+	public UserEntity(String username, String password, String bio, List<String> passions) {
 		this.username = username;
 		this.password = password;
 		this.bio = bio;
