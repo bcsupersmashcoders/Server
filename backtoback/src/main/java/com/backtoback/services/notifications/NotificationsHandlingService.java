@@ -1,27 +1,29 @@
 package com.backtoback.services.notifications;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 
 import com.backtoback.helpers.JerseyClient;
-import com.google.gson.JsonObject;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 
 public class NotificationsHandlingService {
 	private final String notificationsPath = "notifications/{userId}";
 	
-	public void pushNotification(String userId){
-		JsonObject body = new JsonObject();
-		body.addProperty("message","hey! your event is on 3 days");
-		body.addProperty("createDate", System.currentTimeMillis());
-		body.addProperty("notificationType", "strava-miles");
-		body.addProperty("notificationId", "b2b" + System.currentTimeMillis());
+	public String pushNotification(String userId, String name){
+		MultivaluedMap body = new MultivaluedMapImpl();
+		body.add("message", name);
+		body.add("createDate", String.valueOf(System.currentTimeMillis()));
+		body.add("notificationType", "strava-miles");
+		body.add	("notificationId", "b2b" + System.currentTimeMillis());
 		
 		String sourcePath = notificationsPath;
 		sourcePath = sourcePath.replace("{userId}", userId);
 		
 		WebResource wr = JerseyClient.getNotificationService().path(sourcePath).queryParam("siteId", "1");
-		wr.accept(MediaType.APPLICATION_JSON).post(body);
+		String result = wr.accept(MediaType.APPLICATION_JSON).post(String.class, body);
+		return result;
 	}
 	
 }

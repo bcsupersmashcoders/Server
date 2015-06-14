@@ -8,6 +8,7 @@ import com.backtoback.entities.images.ImageEntity;
 import com.backtoback.entities.products.ProductEntity;
 import com.backtoback.entities.users.UserEntity;
 import com.backtoback.pojos.LoginResource;
+import com.backtoback.pojos.ResultMessage;
 import com.backtoback.pojos.URLResource;
 import com.backtoback.services.events.EventsHandlingService;
 import com.backtoback.services.images.ImageHandlingService;
@@ -22,6 +23,7 @@ import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.NotFoundException;
+import com.google.gson.JsonObject;
 
 /** An endpoint class we are exposing */
 @Api(name = "backtoback", version = "v1", title = "Back To Back API", namespace = @ApiNamespace(ownerDomain = "sschackathon.appspot.com", ownerName = "sschackathon", packagePath = ""))
@@ -105,9 +107,9 @@ public class EventService {
 		return eventService.getProducts(categoryId);
 	}
 	
-	@ApiMethod(name = "pushNotification", path = "notification/{userId}", httpMethod = HttpMethod.POST)
-	public void pushNotification(@Named("userId") String userId) throws NotFoundException,
+	@ApiMethod(name = "pushNotification", path = "notification/{userId}/{message}", httpMethod = HttpMethod.POST)
+	public void pushNotification(@Named("userId") String userId, @Named("message") String message) throws NotFoundException,
 			ConflictException {
-		notificationService.pushNotification(userId);
+		notificationService.pushNotification(userId, message);
 	}
 }
